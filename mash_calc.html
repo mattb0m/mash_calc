@@ -4,23 +4,37 @@
         <title>Mash Calculator</title>
         <meta charset="UTF-8">
         <script src="mash.js"></script>
+        <link rel="stylesheet" href="mash.css">
     </head>
     <body>
-        <form>
-            <input type="number" id="total_grain" step="0.01" onchange="update_param()"><label for="total_grain">Total grain weight (kg)</label><br>
-            <input type="number" id="wg_ratio" step="0.01" value="3.00" onchange="update_param()"><label for="wg_ratio">Water-to-grist ratio (L/kg)</label><br>
-            <input type="number" id="t0" step="1" value="18" onchange="update_param()"><label for="t0">Grain Temp (&deg;C)</label><br>
-        </form>
-        <button onclick="add_rest()">Add Rest</button><button onclick="del_rest()">Remove Rest</button>
-        <table id="rests"></table>
-        <table>
-            <thead>
-                <tr id="inf_cols"><td>Infusion</td><td>Temp (&deg;C)</td><td>Vol (L)</td><td>Vol (Gal)</td></tr>
-            </thead>
-            <tbody id="infusions"></tbody>
-            <tfoot>
-                <tr id="total_vol"><td>Total Mash Volume:</td><td></td></tr>
-            </tfoot>
-        </table>
+    <div class="non-footer-wrap">
+        <header>
+            <h1>Mash Calculator</h1>
+        </header>
+        <main>
+            <form>
+                <input type="number" id="total_grain" step="0.01" onchange="update_param()"><label for="total_grain">Total grain weight (kg)</label><br>
+                <input type="number" id="wg_ratio" step="0.01" value="3.00" onchange="update_param()"><label for="wg_ratio">Water-to-grist ratio (L/kg)</label><br>
+                <input type="number" id="t0" step="1" value="18" onchange="update_param()"><label for="t0">Grain Temp (&deg;C)</label><br>
+            </form>
+            <button onclick="add_rest()">Add Rest</button><button onclick="del_rest()">Remove Rest</button>
+            <table id="rests"></table>
+            <table>
+                <thead>
+                    <tr id="inf_cols"><td>Infusion</td><td>Temp (&deg;C)</td><td>Vol (L)</td><td>Vol (Gal)</td></tr>
+                </thead>
+                <tbody id="infusions"></tbody>
+                <tfoot>
+                    <tr id="total_vol"><td>Total Mash Volume:</td><td></td></tr>
+                </tfoot>
+            </table>
+        </main>
+    </div>
+    <footer>
+        <p>
+            All formulas from John Palmer, "How to Brew", 2017 and Ray Daniels, "Designing Great Beers", 1996.<br>
+            Created by mattb0m, 2020.
+        </p>
+    </footer>
     <body>
 </html>
