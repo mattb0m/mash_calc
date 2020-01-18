@@ -104,6 +104,8 @@ function update_infusions(rest_list) {
         cols[3].innerHTML = (vol/L_PER_GAL).toFixed(2);
     }
     
+    document.getElementById('total_water').children[2].innerHTML = water.toFixed(2);
+    document.getElementById('total_water').children[3].innerHTML = (water/L_PER_GAL).toFixed(2);
     //document.getElementById('total_vol').children[1].innerHTML = TODO;
 }
 
