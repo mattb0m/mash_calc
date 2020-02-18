@@ -21,6 +21,7 @@
                 <input type="number" id="boil_len" step="1" value="60" onchange="update_evap()"><label for="boil_len">Boil Length (min)</label><br>
                 <input type="number" id="eq_loss" step="0.1" value="1" onchange="update_sparge()"><label for="eq_loss">Equipment Loss (L)</label><br>
                 <input type="number" id="trub_loss" step="0.1" value="2" onchange="update_runoff()"><label for="trub_loss">Trub Loss (L)</label><br>
+                <input type="number" id="tun_vol" step="0.1" value="19" onchange="update_total_vol()"><label for="tun_vol">Mash Tun Volume (L)</label><br>
             </form>
             <button onclick="add_rest()">Add Rest</button><button onclick="del_rest()">Remove Rest</button>
             <table id="rests"></table>

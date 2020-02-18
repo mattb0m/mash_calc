@@ -30,6 +30,13 @@ function get_batch_volume() {
     return parseFloat(document.getElementById('bat_vol').value);
 }
 
+function set_footer_good(row_id, is_good) {
+    var row = document.getElementById(row_id);
+    row.classList.remove('good');
+    row.classList.remove('bad');
+    row.classList.add(is_good ? 'good' : 'bad');
+}
+
 function set_footer_row(row_id, vol) {
     var row = document.getElementById(row_id);
     row.children[2].innerHTML = vol.toFixed(2);
@@ -237,12 +244,15 @@ function update_total_mash() {
 
 function update_total_vol() {
     const GRAIN_DISPLACEMENT = 0.67; /* L/kg displaced, according to BYO */
-    var grain, infusion;
+    var grain, infusion, tun_vol, total_vol;
     
     grain = get_grain_weight();
     infusion = get_footer_vol('total_infusion');
+    tun_vol = parseFloat(document.getElementById('tun_vol').value);
+    total_vol = infusion+(grain*GRAIN_DISPLACEMENT);
     
-    set_footer_row('total_vol', infusion+(grain*GRAIN_DISPLACEMENT));
+    set_footer_row('total_vol', total_vol);
+    set_footer_good('total_vol', total_vol<tun_vol);
 }
 
 function init() {

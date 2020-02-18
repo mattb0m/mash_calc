@@ -44,5 +44,14 @@ thead {
 }
 
 .highlight {
+    font-weight: bold;
+    background: yellow;
+}
+
+.good {
+    color: green;
+}
+
+.bad {
     color: red;
 }
