@@ -2,6 +2,7 @@ html, body {
     margin: 0;
     height: 100%;
     font-size: 12pt;
+    background: #b8a200;
 }
 
 .non-footer-wrap {
@@ -45,7 +46,7 @@ thead {
 
 .highlight {
     font-weight: bold;
-    background: yellow;
+    background: #f5f390;
 }
 
 .good {
