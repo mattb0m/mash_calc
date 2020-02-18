@@ -42,3 +42,7 @@ table {
 thead {
     font-weight: bold;
 }
+
+.highlight {
+    color: red;
+}

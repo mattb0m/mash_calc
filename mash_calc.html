@@ -6,16 +6,21 @@
         <script src="mash.js"></script>
         <link rel="stylesheet" href="mash.css">
     </head>
-    <body>
+    <body onload="init()">
     <div class="non-footer-wrap">
         <header>
             <h1>Mash Calculator</h1>
         </header>
         <main>
             <form>
-                <input type="number" id="total_grain" step="0.001" value="4.0" onchange="update_param()"><label for="total_grain">Total grain weight (kg)</label><br>
+                <input type="number" id="total_grain" step="0.001" value="4.0" onchange="update_total_grain()"><label for="total_grain">Total grain weight (kg)</label><br>
                 <input type="number" id="wg_ratio" step="0.01" value="3.00" onchange="update_param()"><label for="wg_ratio">Water-to-grist ratio (L/kg)</label><br>
                 <input type="number" id="t0" step="1" value="18" onchange="update_param()"><label for="t0">Grain Temp (&deg;C)</label><br>
+                <input type="number" id="bat_vol" step="0.5" value="19" onchange="update_runoff()"><label for="bat_vol">Batch Volume (L)</label><br>
+                <input type="number" id="evap_rate" step="0.01" value="4.75" onchange="update_evap()"><label for="evap_rate">Evaporation Rate (L/hour)</label><br>
+                <input type="number" id="boil_len" step="1" value="60" onchange="update_evap()"><label for="boil_len">Boil Length (min)</label><br>
+                <input type="number" id="eq_loss" step="0.1" value="1" onchange="update_sparge()"><label for="eq_loss">Equipment Loss (L)</label><br>
+                <input type="number" id="trub_loss" step="0.1" value="2" onchange="update_runoff()"><label for="trub_loss">Trub Loss (L)</label><br>
             </form>
             <button onclick="add_rest()">Add Rest</button><button onclick="del_rest()">Remove Rest</button>
             <table id="rests"></table>
@@ -25,8 +30,13 @@
                 </thead>
                 <tbody id="infusions"></tbody>
                 <tfoot>
-                    <tr id="total_water"><td>Total Mash Water:</td><td></td><td></td><td></td></tr>
-                    <tr id="total_vol"><td>Total Mash Volume:</td><td></td></tr>
+                    <tr id="grain_loss"><td>Water Lost to Grain:</td><td></td><td></td><td></td></tr>
+                    <tr id="boil_loss"><td>Boil Evaporation Loss:</td><td></td><td></td><td></td></tr>
+                    <tr id="runoff_vol"><td>Runoff Volume:</td><td></td><td></td><td></td></tr>
+                    <tr id="total_infusion" class="highlight"><td>Total Infusion Water:</td><td></td><td></td><td></td></tr>
+                    <tr id="sparge" class="highlight"><td>Total Sparge Water:</td><td></td><td></td><td></td></tr>
+                    <tr id="total_mash"><td>Total Mash Water:</td><td></td><td></td><td></td></tr>
+                    <tr id="total_vol"><td>Total Mash Volume:</td><td></td><td></td><td></td></tr>
                 </tfoot>
             </table>
         </main>

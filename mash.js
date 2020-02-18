@@ -22,6 +22,25 @@ const TD_CONSTANT = 0.41;
 const MAX_RESTS = 5;
 const L_PER_GAL = 3.785;
 
+function get_grain_weight() {
+    return parseFloat(document.getElementById('total_grain').value);
+}
+
+function get_batch_volume() {
+    return parseFloat(document.getElementById('bat_vol').value);
+}
+
+function set_footer_row(row_id, vol) {
+    var row = document.getElementById(row_id);
+    row.children[2].innerHTML = vol.toFixed(2);
+    row.children[3].innerHTML = (vol/L_PER_GAL).toFixed(2);
+}
+
+function get_footer_vol(row_id) {
+    var vol = parseFloat(document.getElementById(row_id).children[2].innerHTML);
+    return isNaN(vol) ? 0 : vol;
+}
+
 function get_strike_temp(grain, wg_ratio, t1, t2) {
     return((TD_CONSTANT/wg_ratio) * (t2-t1) + t2);
 }
@@ -77,7 +96,7 @@ function add_infusion(idx) {
 
 function update_infusions(rest_list) {
     var infusions = document.getElementById('infusions').children;
-    var grain = parseFloat(document.getElementById('total_grain').value);
+    var grain = get_grain_weight();
     var wg_ratio = parseFloat(document.getElementById('wg_ratio').value);
     var t0 = parseFloat(document.getElementById('t0').value);
     var len = rest_list.length;
@@ -104,9 +123,9 @@ function update_infusions(rest_list) {
         cols[3].innerHTML = (vol/L_PER_GAL).toFixed(2);
     }
     
-    document.getElementById('total_water').children[2].innerHTML = water.toFixed(2);
-    document.getElementById('total_water').children[3].innerHTML = (water/L_PER_GAL).toFixed(2);
-    //document.getElementById('total_vol').children[1].innerHTML = TODO;
+    set_footer_row('total_infusion', water);
+    update_sparge();
+    update_total_vol();
 }
 
 function mod_rest(e) {
@@ -142,6 +161,7 @@ function del_rest() {
     
     rests.removeChild(rests.lastChild);
     del_infusion();
+    update_infusions(rests.children);
 }
 
 function del_infusion() {
@@ -155,4 +175,78 @@ function del_infusion() {
 
 function update_param() {
     update_infusions(document.getElementById('rests').children);
+}
+
+function update_grain_loss() {
+    const LOSS_FACTOR = 1.04; /* L lost/kg of grain, according to BYO and Internet sources */
+    
+    set_footer_row('grain_loss', get_grain_weight()*LOSS_FACTOR);
+    update_sparge();
+}
+
+function update_total_grain() {
+    update_grain_loss();
+    update_infusions(document.getElementById('rests').children);
+}
+
+function update_evap() {
+    var boil_len, evap_rate, boil_loss;
+    
+    boil_len = parseFloat(document.getElementById('boil_len').value);
+    evap_rate = parseFloat(document.getElementById('evap_rate').value);
+    boil_loss = (boil_len/60)*evap_rate;
+    
+    set_footer_row('boil_loss', boil_loss);
+    update_runoff();
+}
+
+function update_runoff() {
+    const SHRINKAGE_COEFF = 0.96;
+    var boil_loss, bat_vol, trub_loss;
+    
+    boil_loss = get_footer_vol('boil_loss');
+    bat_vol = get_batch_volume();
+    trub_loss = parseFloat(document.getElementById('trub_loss').value);
+    
+    set_footer_row('runoff_vol', (bat_vol/SHRINKAGE_COEFF)+boil_loss+trub_loss);
+    update_sparge();
+}
+
+function update_sparge() {
+    var runoff, grain_loss, eq_loss, infusion, total_vol_to_tun;
+    
+    runoff = get_footer_vol('runoff_vol');
+    grain_loss = get_footer_vol('grain_loss');
+    eq_loss = parseFloat(document.getElementById('eq_loss').value);
+    infusion = get_footer_vol('total_infusion');
+    
+    total_vol_to_tun = runoff+grain_loss+eq_loss;
+    
+    set_footer_row('sparge', total_vol_to_tun-infusion);
+    update_total_mash();
+}
+
+function update_total_mash() {
+    var infusion, sparge;
+    
+    infusion = get_footer_vol('total_infusion');
+    sparge = get_footer_vol('sparge');
+    
+    set_footer_row('total_mash', infusion+sparge);
+}
+
+function update_total_vol() {
+    const GRAIN_DISPLACEMENT = 0.67; /* L/kg displaced, according to BYO */
+    var grain, infusion;
+    
+    grain = get_grain_weight();
+    infusion = get_footer_vol('total_infusion');
+    
+    set_footer_row('total_vol', infusion+(grain*GRAIN_DISPLACEMENT));
+}
+
+function init() {
+    update_grain_loss();
+    update_evap(); /* updates subsequent values as well */
+    update_total_vol();
 }
