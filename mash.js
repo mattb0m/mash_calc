@@ -22,16 +22,12 @@ const TD_CONSTANT = 0.41;
 const MAX_RESTS = 5;
 const L_PER_GAL = 3.785;
 
-function get_grain_weight() {
-    return parseFloat(document.getElementById('total_grain').value);
-}
-
-function get_batch_volume() {
-    return parseFloat(document.getElementById('bat_vol').value);
-}
-
 function set_config(key,val) {
     document.getElementById(key).value = val;
+}
+
+function get_config(key) {
+    return parseFloat(document.getElementById(key).value);
 }
 
 function set_footer_good(row_id, is_good) {
@@ -107,9 +103,9 @@ function add_infusion(idx) {
 
 function update_infusions(rest_list) {
     var infusions = document.getElementById('infusions').children;
-    var grain = get_grain_weight();
-    var wg_ratio = parseFloat(document.getElementById('wg_ratio').value);
-    var t0 = parseFloat(document.getElementById('t0').value);
+    var grain = get_config('total_grain');
+    var wg_ratio = get_config('wg_ratio');
+    var t0 = get_config('t0');
     var len = rest_list.length;
     var rest, t1, t2, ti, i, prev, water = 0, vol, infusion, cols;
     
@@ -191,7 +187,7 @@ function update_param() {
 function update_grain_loss() {
     const LOSS_FACTOR = 1.04; /* L lost/kg of grain, according to BYO and Internet sources */
     
-    set_footer_row('grain_loss', get_grain_weight()*LOSS_FACTOR);
+    set_footer_row('grain_loss', get_config('total_grain')*LOSS_FACTOR);
     update_sparge();
 }
 
@@ -203,8 +199,8 @@ function update_total_grain() {
 function update_evap() {
     var boil_len, evap_rate, boil_loss;
     
-    boil_len = parseFloat(document.getElementById('boil_len').value);
-    evap_rate = parseFloat(document.getElementById('evap_rate').value);
+    boil_len = get_config('boil_len');
+    evap_rate = get_config('evap_rate');
     boil_loss = (boil_len/60)*evap_rate;
     
     set_footer_row('boil_loss', boil_loss);
@@ -216,8 +212,8 @@ function update_runoff() {
     var boil_loss, bat_vol, trub_loss;
     
     boil_loss = get_footer_vol('boil_loss');
-    bat_vol = get_batch_volume();
-    trub_loss = parseFloat(document.getElementById('trub_loss').value);
+    bat_vol = get_config('bat_vol');
+    trub_loss = get_config('trub_loss');
     
     set_footer_row('runoff_vol', (bat_vol/SHRINKAGE_COEFF)+boil_loss+trub_loss);
     update_sparge();
@@ -228,7 +224,7 @@ function update_sparge() {
     
     runoff = get_footer_vol('runoff_vol');
     grain_loss = get_footer_vol('grain_loss');
-    eq_loss = parseFloat(document.getElementById('eq_loss').value);
+    eq_loss = get_config('eq_loss');
     infusion = get_footer_vol('total_infusion');
     
     total_vol_to_tun = runoff+grain_loss+eq_loss;
@@ -250,9 +246,9 @@ function update_total_vol() {
     const GRAIN_DISPLACEMENT = 0.67; /* L/kg displaced, according to BYO */
     var grain, infusion, tun_vol, total_vol;
     
-    grain = get_grain_weight();
+    grain = get_config('total_grain');
     infusion = get_footer_vol('total_infusion');
-    tun_vol = parseFloat(document.getElementById('tun_vol').value);
+    tun_vol = get_config('tun_vol');
     total_vol = infusion+(grain*GRAIN_DISPLACEMENT);
     
     set_footer_row('total_vol', total_vol);
