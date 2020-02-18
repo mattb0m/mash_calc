@@ -30,6 +30,10 @@ function get_batch_volume() {
     return parseFloat(document.getElementById('bat_vol').value);
 }
 
+function set_config(key,val) {
+    document.getElementById(key).value = val;
+}
+
 function set_footer_good(row_id, is_good) {
     var row = document.getElementById(row_id);
     row.classList.remove('good');
@@ -255,12 +259,23 @@ function update_total_vol() {
     set_footer_good('total_vol', total_vol<tun_vol);
 }
 
+function init_config(cfg) {
+    set_config('wg_ratio', cfg.mash_thickness);
+    set_config('t0', cfg.grain_temp);
+    set_config('bat_vol', cfg.batch_volume);
+    set_config('evap_rate', cfg.evaporation_rate);
+    set_config('eq_loss', cfg.equipment_loss);
+    set_config('trub_loss', cfg.trub_loss);
+    set_config('tun_vol', cfg.mash_tun_volume);
+}
+
 function init() {
     var xhr;
     xhr = new XMLHttpRequest();
     
     xhr.addEventListener("load", function() {
-        var config = JSON.parse(this.responseText);
+        var cfg = JSON.parse(this.responseText);
+        init_config(cfg);
         
         update_grain_loss();
         update_evap(); /* updates subsequent values as well */
