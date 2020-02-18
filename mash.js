@@ -256,7 +256,17 @@ function update_total_vol() {
 }
 
 function init() {
-    update_grain_loss();
-    update_evap(); /* updates subsequent values as well */
-    update_total_vol();
+    var xhr;
+    xhr = new XMLHttpRequest();
+    
+    xhr.addEventListener("load", function() {
+        var config = JSON.parse(this.responseText);
+        
+        update_grain_loss();
+        update_evap(); /* updates subsequent values as well */
+        update_total_vol();
+    });
+    
+    xhr.open("GET", "config.json");
+    xhr.send();
 }
