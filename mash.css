@@ -5,6 +5,10 @@ html, body {
     background: #b8a200;
 }
 
+input {
+    margin-bottom: 8px;
+}
+
 .non-footer-wrap {
     min-height: 100%;
     margin-bottom: -50px;
@@ -32,7 +36,7 @@ form, table {
     margin: 10px 0;
 }
 
-table, th, td {
+table, tr, th, td {
     border: solid 1px #000;
 }
 
@@ -55,4 +59,22 @@ thead {
 
 .bad {
     color: red;
+}
+
+.flex {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    flex: 1;
+}
+
+.panel {
+    vertical-align: top;
+    margin: 0 5%;
+}
+
+.divider {
+    width: 2px;
+    height: 500px;
+    background: #000;
 }

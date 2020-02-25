@@ -125,28 +125,26 @@ function add_infusion(idx) {
     for(i=0; i<cols; ++i)
         infusion.appendChild(document.createElement('td'));
     
-    infusion.firstChild.innerHTML = ''+idx;
+    infusion.firstChild.innerHTML = ''+(idx+1);
     infusions.appendChild(infusion);
 }
 
-function update_infusions(rest_list) {
+function update_infusions(rests) {
     var infusions = document.getElementById(keys.MASH_INFUSIONS).children;
     var grain = get_config(keys.GRAIN_MASS);
     var wg_ratio = get_config(keys.MASH_THICKNESS);
     var t0 = get_config(keys.GRAIN_TEMP);
-    var len = rest_list.length;
-    var rest, t1, t2, ti, i, prev, water = 0, vol, infusion, cols;
+    var len = rests.length;
+    var t1, t2, ti, i, water = 0, vol, infusion, cols;
     
     for(i=0; i<len; ++i) {
-        rest = rest_list[i].firstChild;
-        t2 = parseFloat(rest.value);
+        t2 = parseFloat(rests[i].firstChild.value);
     
         if(i===0) {
             t1 = t0;
             ti = get_strike_temp(grain, wg_ratio, t1, t2);
         } else {
-            prev = rest_list[i-1].firstChild;
-            t1 = parseFloat(prev.value);
+            t1 = parseFloat(rests[i-1].firstChild.value);
             ti = 100;
         }
         
@@ -190,7 +188,7 @@ function update_min(rests, start) {
 function del_rest() {
     var rests = document.getElementById(keys.MASH_RESTS);
     
-    if(rests.getElementsByTagName('tr').length === 0)
+    if(rests.getElementsByTagName('tr').length <= 1)
         return;
     
     rests.removeChild(rests.lastChild);
@@ -303,6 +301,7 @@ function init() {
         update_grain_loss();
         update_evap(); /* updates subsequent values as well */
         update_total_vol();
+        add_rest();
     });
     
     xhr.open("GET", "config.json");
