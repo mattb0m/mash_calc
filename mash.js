@@ -42,7 +42,9 @@ const keys = {
     TOTAL_INFUSION_VOL: 'total_infusion',
     SPARGE_VOL: 'sparge',
     TOTAL_MASH_WATER_VOL: 'total_mash',
-    TOTAL_MASH_VOL: 'total_vol'
+    TOTAL_MASH_VOL: 'total_vol',
+    TOTAL_HOPS: 'total_hops',
+    HOPS_LOSS: 'hops_loss'
 };
 
 function set_config(key,val) {
@@ -234,13 +236,14 @@ function update_evap() {
 
 function update_runoff() {
     const SHRINKAGE_COEFF = 0.96;
-    var boil_loss, bat_vol, trub_loss;
+    var boil_loss, bat_vol, trub_loss, hops_loss;
     
     boil_loss = get_footer_vol(keys.BOIL_LOSS);
+    hops_loss = get_footer_vol(keys.HOPS_LOSS);
     bat_vol = get_config(keys.BATCH_VOL);
     trub_loss = get_config(keys.TRUB_LOSS);
     
-    set_footer_row(keys.RUNOFF_VOL, ((bat_vol+trub_loss)/SHRINKAGE_COEFF)+boil_loss);
+    set_footer_row(keys.RUNOFF_VOL, ((bat_vol+trub_loss+hops_loss)/SHRINKAGE_COEFF)+boil_loss);
     update_sparge();
 }
 
@@ -280,6 +283,14 @@ function update_total_vol() {
     set_footer_good(keys.TOTAL_MASH_VOL, total_vol<tun_vol);
 }
 
+function update_hops_loss() {
+    /* (determined experimentally): hops_loss_rate = 0.4L absorbed by 28g/1oz, 0.0143L/g */
+    const HOPS_LOSS_RATE = 0.0143;
+    
+    set_footer_row(keys.HOPS_LOSS, get_config(keys.TOTAL_HOPS)*HOPS_LOSS_RATE);
+    update_runoff();
+}
+
 function init_config(cfg) {
     set_config(keys.MASH_THICKNESS, cfg.mash_thickness);
     set_config(keys.GRAIN_TEMP, cfg.grain_temp);
@@ -299,6 +310,7 @@ function init() {
         init_config(cfg);
         
         update_grain_loss();
+        update_hops_loss();
         update_evap(); /* updates subsequent values as well */
         update_total_vol();
         add_rest();

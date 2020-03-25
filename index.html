@@ -18,6 +18,7 @@
           <div class="panel">
             <form>
                 <input type="number" id="total_grain" step="0.001" value="4.0" onchange="update_total_grain()"><label for="total_grain">Total grain weight (kg)</label><br>
+                <input type="number" id="total_hops" step="0.1" value="28.0" onchange="update_hops_loss()"><label for="total_hops">Total hops weight (g)</label><br>
                 <input type="number" id="wg_ratio" step="0.01" onchange="update_param()"><label for="wg_ratio">Water-to-grist ratio (L/kg)</label><br>
                 <input type="number" id="t0" step="1" onchange="update_param()"><label for="t0">Grain Temp (&deg;C)</label><br>
                 <input type="number" id="bat_vol" step="0.5" onchange="update_runoff()"><label for="bat_vol">Batch Volume (L)</label><br>
@@ -43,6 +44,7 @@
                 <tfoot>
                     <tr id="grain_loss"><td>Water Lost to Grain:</td><td></td><td></td><td></td></tr>
                     <tr id="boil_loss"><td>Boil Evaporation Loss:</td><td></td><td></td><td></td></tr>
+                    <tr id="hops_loss"><td>Hops Loss:</td><td></td><td></td><td></td></tr>
                     <tr id="runoff_vol"><td>Runoff Volume:</td><td></td><td></td><td></td></tr>
                     <tr id="total_infusion" class="highlight"><td>Total Infusion Water:</td><td></td><td></td><td></td></tr>
                     <tr id="sparge" class="highlight"><td>Total Sparge Water:</td><td></td><td></td><td></td></tr>
@@ -55,7 +57,7 @@
     </div>
     <footer>
         <p>
-            All formulas from Brew Your Own (BYO), John Palmer, "How to Brew", 2017 and Ray Daniels, "Designing Great Beers", 1996.<br>
+            All formulas from Brew Your Own (BYO), John Palmer "How to Brew" (2017), Ray Daniels "Designing Great Beers" (1996), and personal experiments.<br>
             Created by mattb0m, 2020.
         </p>
     </footer>
