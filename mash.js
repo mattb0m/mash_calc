@@ -240,7 +240,7 @@ function update_runoff() {
     bat_vol = get_config(keys.BATCH_VOL);
     trub_loss = get_config(keys.TRUB_LOSS);
     
-    set_footer_row(keys.RUNOFF_VOL, (bat_vol/SHRINKAGE_COEFF)+boil_loss+trub_loss);
+    set_footer_row(keys.RUNOFF_VOL, ((bat_vol+trub_loss)/SHRINKAGE_COEFF)+boil_loss);
     update_sparge();
 }
 

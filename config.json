@@ -3,7 +3,7 @@
     "grain_temp": 18,
     "batch_volume": 19,
     "evaporation_rate": 4.75,
-    "equipment_loss": 1,
-    "trub_loss": 2,
+    "equipment_loss": 0.5,
+    "trub_loss": 1,
     "mash_tun_volume": 19
 }
