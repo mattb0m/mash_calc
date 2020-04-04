@@ -284,8 +284,8 @@ function update_total_vol() {
 }
 
 function update_hops_loss() {
-    /* (determined experimentally): hops_loss_rate = 0.4L absorbed by 28g/1oz, 0.0143L/g */
-    const HOPS_LOSS_RATE = 0.0143;
+    /* (determined experimentally): hops_loss_rate = 0.4L absorbed by 28g/1oz, 0.0143L/g, minus 5% */
+    const HOPS_LOSS_RATE = 0.0136;
     
     set_footer_row(keys.HOPS_LOSS, get_config(keys.TOTAL_HOPS)*HOPS_LOSS_RATE);
     update_runoff();
