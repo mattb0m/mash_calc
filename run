@@ -1,0 +1,3 @@
+#!/bin/bash
+
+docker run -dit --name mash-calc -p 8080:80 mash-calc
