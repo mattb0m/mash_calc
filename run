@@ -1,3 +1,12 @@
 #!/bin/bash
 
-docker run -dit --name mash-calc -p 8080:80 mash-calc
+if [[ $# -eq 1 ]]
+then
+	port=$1
+else
+	port=8080 
+fi
+
+echo "Starting Mash Calc on port ${port}"
+
+docker run -dit --name mash-calc -p "${port}":80 mash-calc
