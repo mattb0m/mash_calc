@@ -8,5 +8,10 @@ else
 fi
 
 echo "Starting Mash Calc on port ${port}"
+exists=$(docker ps -a | grep mash-calc)
 
-docker run -dit --name mash-calc -p "${port}":80 mash-calc
+if [ -z "$exists" ]; then
+	docker run -dit --name mash-calc -p "${port}":80 mash-calc
+else
+	docker start mash-calc
+fi
